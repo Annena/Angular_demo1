@@ -1,0 +1,498 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">修改采集设备</h1>
+</div>
+<div class="wrapper-md" ng-controller="CollectorModifyCtrl">	
+	<div ng-class="{'addrhide':!comShow}">
+		<form class="form-horizontal" >
+		<h5>基本参数</h5>
+		<hr></hr>
+	    <div class="row form-group">
+	    	<div class="col-sm-2 control-label ng-valid ">
+	    	           名称
+	    	</div>
+	        <div class="col-sm-2">
+	           <input type="text" class="form-control" placeholder="AAAA" required="required" ng-disabled="true" ng-model="comData.name">
+	        </div> 
+	    </div>
+	    
+	    <div class="row form-group">
+	    	<div class="col-sm-2 control-label ng-valid ">
+	    	          设备描述
+	    	</div>
+	        <div class="col-sm-6">
+            	<textarea class="form-control" rows="3" placeholder="Enter ..." id="description" ng-model="comData.description"></textarea>
+	        </div> 
+	    </div>
+	    
+	    <div class="form-group">
+            	<label for="collectorType" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>类型 </label>
+                	<div class="col-sm-2">
+                    	<input type="text" class="form-control" placeholder="typeName" ng-model="comData.daDevTypeName" ng-disabled="true">
+                    </div>
+                    <label for="companie" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>厂商 </label>
+                	<div class="col-sm-2">
+                    	<input type="text" class="form-control" placeholder="companyName" ng-model="comData.daDevCompanyName" ng-disabled="true">
+                    </div>
+       	</div>
+       	       	 
+       	<div class="form-group">
+            	<label for="serie" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>产品系列 </label>
+	    	    <div class="col-sm-2">
+	    	    	<input type="text" class="form-control" placeholder="seriesName" ng-model="comData.daDevSeriesName" ng-disabled="true">
+	         	</div>
+	        	<label for="seriesModel" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>型号 </label>	         		        		        		
+	            <div class="col-sm-2">
+	    	    	<input type="text" class="form-control" placeholder="modelName" ng-model="comData.daDevModelName" ng-disabled="true">
+	           	</div>
+       	</div>      	      	
+       	 <div class="row form-group " > 
+	    	<div class="col-sm-2 control-label ng-valid ">
+	    	           协议接口名称
+	    	</div>
+	        <div class="col-sm-2" >
+	        	<input type="text" class="form-control" placeholder="protocolName" ng-model="comData.daDevProtocolName" ng-disabled="true">
+	        </div> 
+	        <div class="col-sm-2 control-label ng-valid ">
+	    	           物理链路
+	    	</div>
+	        <div class="col-sm-2">
+	        	<input type="text" class="form-control" placeholder="physicalLink" ng-model="comData.physicalLink" ng-disabled="true">
+	        </div>
+	    </div>	     
+	    <div class="row form-group">
+		    <div class="col-sm-2 control-label ng-valid">运行脚本</div>
+	       	<div class="col-sm-2" style="padding-top: 0px;">
+	        	<div class="checkbox">
+	 				<label><input type="checkbox"  ng-model="comData.enableLua" style=" width: 24px;height: 24px;margin-top: 0px;" ng-change="luastrShow('comData')"></label>
+				</div>
+	   		</div>
+   		</div>
+   		<div class="row form-group" ng-class="{true:'luastrshow',false:'luastrhide'}[luastrshow]">
+			<div class="col-sm-2 control-label ng-valid ">
+	 		 初始化Lua脚本
+			</div>
+	   		<div class="col-sm-6">
+	   			<textarea class="form-control" rows="3" placeholder="初始化Lua脚本" ng-model="comData.initLuaStr"></textarea>
+	   		</div>   
+	    </div>
+    	<div class="row form-group" ng-class="{true:'luastrshow',false:'luastrhide'}[luastrshow]">
+			<div class="col-sm-2 control-label ng-valid ">
+	 		 Lua脚本
+			</div>
+	   		<div class="col-sm-6">
+	   			<textarea class="form-control" rows="3" placeholder="Lua脚本" ng-model="comData.luaStr"></textarea>
+	   		</div>   
+	    </div>
+	    <div  class='form-group' ng-repeat="list in comAttrs">
+	        	<div class="col-sm-2 control-label ng-valid ">
+	    			{{list.name}}
+	    		</div>
+        		<div class="col-sm-2">
+            		<input type="text" class="form-control ng-pristine ng-valid ng-touched"   ng-model="list.value" style="display:inline-block;"></input>
+          		</div>
+        		<label for="name" class="col-sm-2 control-label ng-valid ">下发</label>
+         		<div class="checkbox col-sm-2">
+  					<label><input type="checkbox"  ng-model="list.applyToGateway" style=" width: 24px;height: 24px;margin-top: 0px;" ng-change="luastrShow()"></label>
+					<a><span class="glyphicon glyphicon-remove" style="margin-left:3%;color:#d9534f " ng-click="Remove($index,comAttrs)"></span></a>                					
+				</div>
+     	</div>
+		<h5>物理链路参数</h5>	    
+	    <hr></hr>
+	    <div class="form-group">
+            	<label for="comPort" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>串口名称 </label>
+	    	    <div class="col-sm-2">
+	    		<select class="form-control"  ng-model="comData.comPort" ng-options="comPort for comPort in com_ports">
+				</select>	
+	         	</div>
+	        	<label for="seriesModel" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>windows串口名称 </label>
+	            <div class="col-sm-2">
+	            <select class="form-control"  ng-model="comData.winComPort" ng-options="winComPort for winComPort in  win_com_ports">
+				</select>
+	           	</div>
+       	</div>
+       	
+       	<div class="form-group">
+            	<label for="baudRate" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>波特率 </label>
+	    	    <div class="col-sm-2">
+	    	   	<select class="form-control"  ng-model="comData.baudRate" ng-options="baudRate for baudRate in baudRates">
+	    	    </select>
+	         	</div>
+	        	<label for="parity_bit" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>校验位</label>
+	            <div class="col-sm-2">
+            	<select class="form-control" ng-model="comData.parityBit" >
+					<option  value='{{key}}' ng-repeat="(key,value) in parity_bits" ng-selected="comData.parityBit == key">{{value}}</option>				
+				</select>
+	           	</div>
+       	</div>
+       	
+       	<div class="form-group">
+            	<label for="serie" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>数据位 </label>
+	    	    <div class="col-sm-2">
+	    	    <select class="form-control"  ng-model="comData.dataBit" ng-options="dataBit for dataBit in data_bits">
+				</select>
+	         	</div>
+	        	<label for="seriesModel" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>停止位</label>
+	      		<div class="col-sm-2">
+	          	<select class="form-control"  ng-model="comData.stopBit" ng-options="stopBit for stopBit in  stop_bits">
+				</select>
+	          	</div>
+       	</div>
+       	
+       	<div class="form-group">
+            	<label for="transType" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>数据传输模式 </label>
+	    	    <div class="col-sm-2">
+	    	    	<select class="form-control"  ng-model="comData.transType" ng-options="transType for transType in  trans_types">
+					</select>
+	         	</div>
+	        	<label for="seriesModel" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>设备地址</label>
+	            	<div class="col-sm-2">
+	                	 <input type="number"  class="form-control" placeholder="AAAA" required="required" ng-model="comData.devAddr">
+	           		</div>
+       	</div>
+      	<div class="row form-group">
+		  	<label  class="col-sm-2 control-label" ></label>
+		  	<button type="submit" class="btn btn-default "  ng-click="cancel()" style='margin-right:1%;'>取消</button>
+			<button type="submit" class="btn btn-success "  ng-click="ok()" ng-disabled="isdisabled">修改</button>
+		</div>
+    </form>
+    <form class="form-horizontal">
+    		<h5 style="display:inline-block;cursor:pointer;" ng-click="showAddAttr()">添加属性</h5>
+        	<i class="icon-pencil"></i>
+        	<hr style="border-top:0.5px solid #ccc;margin-top:0;"></hr>
+            <div ng-show='isShow'>
+            	<div class="form-group">
+               		<label for="name" class="col-sm-2 control-label ng-valid " ng-model="add_name">属性名</label>
+                    	<div class="col-sm-2">
+                       		<input type="text" class="form-control" id="add_name" placeholder="属性名" required="required" ng-model="add_name ">
+                    	</div>  
+           		</div>
+           		<div class="form-group">
+               		<label for="name" class="col-sm-2 control-label ng-valid " ng-model="add_attr">属性值</label>
+                    	<div class="col-sm-2">
+                       		<input type="text" class="form-control" id="add_attr" placeholder="属性值" required="required" ng-model="add_attr">
+                    	</div>  
+           		</div>
+           		<div class="form-group">
+        			<label for="name" class="col-sm-2 control-label ng-valid ">下发</label>
+         			<div class="col-sm-2" style="padding-top: 0px;">
+            			<div class="checkbox col-sm-2">
+  							<label><input type="checkbox"  ng-model="applyToGateway" style=" width: 24px;height: 24px;margin-top: 0px;" ng-change="luastrShow()"></label>
+						</div>
+         			</div>  
+      			</div>
+            	<div class="form-group" >
+                	<label  class="col-sm-2 control-label" ></label>
+					<button type="submit" class="btn btn-info "  ng-click=" Add(comAttrs)" >添加</button>                                    
+             	</div>
+       	    </div>
+      	 </form>
+	</div>
+	<div ng-class="{'addrhide':!tcpShow}">
+		<form class="form-horizontal" >
+		<h5>基本参数</h5>
+		<hr></hr>
+	    <div class="row form-group">
+	    	<div class="col-sm-2 control-label ng-valid ">
+	    	           名称
+	    	</div>
+	        <div class="col-sm-2">
+	           <input type="text" class="form-control" placeholder="AAAA" required="required" ng-disabled="true" ng-model="tcpData.name">
+	        </div> 
+	    </div>
+	    
+	    <div class="row form-group">
+	    	<div class="col-sm-2 control-label ng-valid ">
+	    	          设备描述
+	    	</div>
+	        <div class="col-sm-6">
+            	<textarea class="form-control" rows="3" placeholder="Enter ..." id="description" ng-model="tcpData.description"></textarea>
+	        </div> 
+	    </div>
+	    
+	    <div class="form-group">
+            	<label for="collectorType" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>类型 </label>
+                	<div class="col-sm-2">
+                    	<input type="text" class="form-control" placeholder="typeName" ng-model="tcpData.daDevTypeName" ng-disabled="true">
+                    </div>
+                    <label for="companie" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>厂商 </label>
+                	<div class="col-sm-2">
+                    	<input type="text" class="form-control" placeholder="companyName" ng-model="tcpData.daDevCompanyName" ng-disabled="true">
+                    </div>
+       	</div>
+       	       	 
+       	<div class="form-group">
+            	<label for="serie" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>产品系列 </label>
+	    	    <div class="col-sm-2">
+	    	    	<input type="text" class="form-control" placeholder="seriesName" ng-model="tcpData.daDevSeriesName" ng-disabled="true">
+	         	</div>
+	        	<label for="seriesModel" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>型号 </label>	         		        		        		
+	            <div class="col-sm-2">
+	    	    	<input type="text" class="form-control" placeholder="modelName" ng-model="tcpData.daDevModelName" ng-disabled="true">
+	           	</div>
+       	</div>
+       	       	
+       	<div class="row form-group " > 
+	    	<div class="col-sm-2 control-label ng-valid ">
+	    	           协议接口名称
+	    	</div>
+	        <div class="col-sm-2" >
+	        	<input type="text" class="form-control" placeholder="protocolName" ng-model="tcpData.daDevProtocolName" ng-disabled="true">
+	        </div> 
+	        <div class="col-sm-2 control-label ng-valid ">
+	    	           物理链路
+	    	</div>
+	        <div class="col-sm-2">
+	        	<input type="text" class="form-control" placeholder="physicalLink" ng-model="tcpData.physicalLink" ng-disabled="true">
+	        </div>	        
+	    </div>	    
+	    <div class="row form-group">
+		    <div class="col-sm-2 control-label ng-valid">运行脚本</div>
+	       	<div class="col-sm-2" style="padding-top: 0px;">
+	        	<div class="checkbox">
+	 				<label><input type="checkbox"  ng-model="tcpData.enableLua" style=" width: 24px;height: 24px;margin-top: 0px;" ng-change="luastrShow('tcpData')"></label>
+				</div>
+	   		</div>
+   		</div>
+   		<div class="row form-group" ng-class="{true:'luastrshow',false:'luastrhide'}[luastrshow]">
+			<div class="col-sm-2 control-label ng-valid ">
+	 		 初始化Lua脚本
+			</div>
+	   		<div class="col-sm-6">
+	   			<textarea class="form-control" rows="3" placeholder="初始化Lua脚本" ng-model="tcpData.initLuaStr"></textarea>
+	   		</div>   
+	    </div>
+    	<div class="row form-group" ng-class="{true:'luastrshow',false:'luastrhide'}[luastrshow]">
+			<div class="col-sm-2 control-label ng-valid ">
+	 		 Lua脚本
+			</div>
+	   		<div class="col-sm-6">
+	   			<textarea class="form-control" rows="3" placeholder="Lua脚本" ng-model="tcpData.luaStr"></textarea>
+	   		</div>   
+	    </div>
+	    <div  class='form-group' ng-repeat="list in tcpAttrs">
+	        	<div class="col-sm-2 control-label ng-valid ">
+	    			{{list.name}}
+	    		</div>
+        		<div class="col-sm-2">
+            		<input type="text" class="form-control ng-pristine ng-valid ng-touched"   ng-model="list.value" style="display:inline-block;"></input>
+          		</div>
+        		<label for="name" class="col-sm-2 control-label ng-valid ">下发</label>
+         		<div class="checkbox col-sm-2">
+  					<label><input type="checkbox"  ng-model="list.applyToGateway" style=" width: 24px;height: 24px;margin-top: 0px;" ng-change="luastrShow()"></label>
+					<a><span class="glyphicon glyphicon-remove" style="margin-left:3%;color:#d9534f " ng-click="Remove($index,tcpAttrs)"></span></a>                					
+				</div>
+     	</div>
+		<h5>物理链路参数</h5>	    
+	    <hr></hr>
+		<div class="row form-group " > 
+	    	<div class="col-sm-2 control-label ng-valid ">
+	    	    	IP地址
+	    	</div>
+	   	 	<div class="col-sm-2">
+	        	<input type="text" ng-blur="verifyTcpIP()" class="form-control" placeholder="AAAA"  ng-model="tcpData.tcpIp">
+	        	<div ng-if="isTcpShow" class="glyphicon glyphicon-exclamation-sign" style='color:#e24c4f;padding-right:5px;padding-top:2px;'> 你输入的IP地址不正确</div>	           		
+	     	</div> 
+	     	<div class="col-sm-2 control-label ng-valid ">
+	    		 TCP端口
+	    	</div>
+	    	<div class="col-sm-2">
+	        	<input type="number" class="form-control"  placeholder="AAAA"  ng-model="tcpData.tcpPort">
+	     	</div>
+	    </div>
+	   	<div class="row form-group">
+		  	<label  class="col-sm-2 control-label" ></label>
+		  	<button type="submit" class="btn btn-default "  ng-click="cancel()" style='margin-right:1%;'>取消</button>
+			<button type="submit" class="btn btn-success "  ng-click="ok()" ng-disabled="isdisabled">修改</button>
+		</div>
+   	</form>
+    <form class="form-horizontal">
+    		<h5 style="display:inline-block;cursor:pointer;" ng-click="showAddAttr()">添加属性</h5>
+        	<i class="icon-pencil"></i>
+        	<hr style="border-top:0.5px solid #ccc;margin-top:0;"></hr>
+            <div ng-show='isShow'>
+            	<div class="form-group">
+               		<label for="name" class="col-sm-2 control-label ng-valid " ng-model="add_name">属性名</label>
+                    	<div class="col-sm-2">
+                       		<input type="text" class="form-control" id="add_name" placeholder="属性名" required="required" ng-model="add_name ">
+                    	</div>  
+           		</div>
+           		<div class="form-group">
+               		<label for="name" class="col-sm-2 control-label ng-valid " ng-model="add_attr">属性值</label>
+                    	<div class="col-sm-2">
+                       		<input type="text" class="form-control" id="add_attr" placeholder="属性值" required="required" ng-model="add_attr">
+                    	</div>  
+           		</div>
+           		<div class="form-group">
+        			<label for="name" class="col-sm-2 control-label ng-valid ">下发</label>
+         			<div class="col-sm-2" style="padding-top: 0px;">
+            			<div class="checkbox col-sm-2">
+  							<label><input type="checkbox"  ng-model="applyToGateway" style=" width: 24px;height: 24px;margin-top: 0px;" ng-change="luastrShow()"></label>
+						</div>
+         			</div>  
+      			</div>
+            	<div class="form-group" >
+                	<label  class="col-sm-2 control-label" ></label>
+					<button type="submit" class="btn btn-info "  ng-click=" Add(tcpAttrs)" >添加</button>                                    
+             	</div>
+       	    </div>
+      	 </form>
+</div>
+	<div ng-class="{'addrhide':!opcShow}">
+	<form class="form-horizontal" >
+	<h5>基本参数</h5>
+		<hr></hr>
+	    <div class="row form-group">
+	    	<div class="col-sm-2 control-label ng-valid ">
+	    	           名称
+	    	</div>
+	        <div class="col-sm-2">
+	           <input type="text" class="form-control" placeholder="AAAA" required="required" ng-disabled="true" ng-model="opcData.name">
+	        </div> 
+	    </div>
+	    
+	    <div class="row form-group">
+	    	<div class="col-sm-2 control-label ng-valid ">
+	    	          设备描述
+	    	</div>
+	        <div class="col-sm-6">
+            	<textarea class="form-control" rows="3" placeholder="Enter ..." id="description" ng-model="opcData.description"></textarea>
+	        </div> 
+	    </div>
+	    
+	    <div class="form-group">
+            	<label for="collectorType" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>类型 </label>
+                	<div class="col-sm-2">
+                    	<input type="text" class="form-control" placeholder="typeName" ng-model="opcData.daDevTypeName" ng-disabled="true">
+                    </div>
+                    <label for="companie" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>厂商 </label>
+                	<div class="col-sm-2">
+                    	<input type="text" class="form-control" placeholder="companyName" ng-model="opcData.daDevCompanyName" ng-disabled="true">
+                    </div>
+       	</div>
+       	       	 
+       	<div class="form-group">
+            	<label for="serie" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>产品系列 </label>
+	    	    <div class="col-sm-2">
+	    	    	<input type="text" class="form-control" placeholder="seriesName" ng-model="opcData.daDevSeriesName" ng-disabled="true">
+	         	</div>
+	        	<label for="seriesModel" class="col-sm-2 col-xs-2 col-md-2	col-lg-2 control-label" readonly>型号 </label>	         		        		        		
+	            <div class="col-sm-2">
+	    	    	<input type="text" class="form-control" placeholder="modelName" ng-model="opcData.daDevModelName" ng-disabled="true">
+	           	</div>
+       	</div>       	       	
+       	<div class="row form-group " > 
+	    	<div class="col-sm-2 control-label ng-valid ">
+	    	           协议接口名称
+	    	</div>
+	        <div class="col-sm-2" >
+	        	<input type="text" class="form-control" placeholder="protocolName" ng-model="opcData.daDevProtocolName" ng-disabled="true">
+	        </div> 
+	        <div class="col-sm-2 control-label ng-valid ">
+	    	           物理链路
+	    	</div>
+	        <div class="col-sm-2">
+	        	<input type="text" class="form-control" placeholder="physicalLink" ng-model="opcData.physicalLink" ng-disabled="true">
+	        </div>
+	    </div>
+		
+	    <div class="row form-group">
+		    <div class="col-sm-2 control-label ng-valid">运行脚本</div>
+	       	<div class="col-sm-2" style="padding-top: 0px;">
+	        	<div class="checkbox">
+	 				<label><input type="checkbox"  ng-model="opcData.enableLua" style=" width: 24px;height: 24px;margin-top: 0px;" ng-change="luastrShow('opcData')"></label>
+				</div>
+	   		</div>
+   		</div>
+   		<div class="row form-group" ng-class="{true:'luastrshow',false:'luastrhide'}[luastrshow]">
+			<div class="col-sm-2 control-label ng-valid ">
+	 		 初始化Lua脚本
+			</div>
+	   		<div class="col-sm-6">
+	   			<textarea class="form-control" rows="3" placeholder="初始化Lua脚本" ng-model="opcData.initLuaStr"></textarea>
+	   		</div>   
+	    </div>
+    	<div class="row form-group" ng-class="{true:'luastrshow',false:'luastrhide'}[luastrshow]">
+			<div class="col-sm-2 control-label ng-valid ">
+	 		 Lua脚本
+			</div>
+	   		<div class="col-sm-6">
+	   			<textarea class="form-control" rows="3" placeholder="Lua脚本" ng-model="opcData.luaStr"></textarea>
+	   		</div>   
+	    </div>
+		<div  class='form-group' ng-repeat="list in opcAttrs">
+	        	<div class="col-sm-2 control-label ng-valid ">
+	    			{{list.name}}
+	    		</div>
+        		<div class="col-sm-2">
+            		<input type="text" class="form-control ng-pristine ng-valid ng-touched"   ng-model="list.value" style="display:inline-block;"></input>
+          		</div>
+        		<label for="name" class="col-sm-2 control-label ng-valid ">下发</label>
+         		<div class="checkbox col-sm-2">
+  					<label><input type="checkbox"  ng-model="list.applyToGateway" style=" width: 24px;height: 24px;margin-top: 0px;" ng-change="luastrShow()"></label>
+					<a><span class="glyphicon glyphicon-remove" style="margin-left:3%;color:#d9534f " ng-click="Remove($index,opcAttrs)"></span></a>                					
+				</div>
+     	</div>
+		<h5>物理链路参数:</h5>	    
+	    <hr></hr>
+		<div class="row form-group " > 
+	    	<div class="col-sm-2 control-label ng-valid ">
+	    	    	IP地址
+	    	</div>
+	   	 	<div class="col-sm-2">
+	        	<input type="text" ng-blur="verifyTcpIP()" class="form-control" placeholder="AAAA"  ng-model="opcData.tcpIp">
+	        	<div ng-if="isTcpShow" class="glyphicon glyphicon-exclamation-sign" style='color:#e24c4f;padding-right:5px;padding-top:2px;'> 你输入的IP地址不正确</div>	           		
+	     	</div> 
+	     	<div class="col-sm-2 control-label ng-valid ">
+	    		 TCP端口
+	    	</div>
+	    	<div class="col-sm-2">
+	        	<input type="number" class="form-control"  placeholder="AAAA"  ng-model="opcData.tcpPort">
+	     	</div>
+	    </div>
+	    <div class="row form-group">	    
+	    	<div class="col-sm-2 control-label ng-valid ">
+	    		 Opc服务器
+	    	</div>
+	    	<div class="col-sm-2">
+	        	<input type="text" class="form-control" placeholder="AAAA" required="required" ng-model="opcData.progId">
+	     	</div> 
+	   </div>
+		<div class="row form-group">
+		  	<label  class="col-sm-2 control-label" ></label>
+		  	<button type="submit" class="btn btn-default "  ng-click="cancel()" style='margin-right:1%;'>取消</button>
+			<button type="submit" class="btn btn-success "  ng-click="ok()" ng-disabled="isdisabled">修改</button>
+		</div>
+   	</form>
+	<form class="form-horizontal">
+    		<h5 style="display:inline-block;cursor:pointer;" ng-click="showAddAttr()">添加属性</h5>
+        	<i class="icon-pencil"></i>
+        	<hr style="border-top:0.5px solid #ccc;margin-top:0;"></hr>
+            <div ng-show='isShow'>
+            	<div class="form-group">
+               		<label for="name" class="col-sm-2 control-label ng-valid " ng-model="add_name">属性名</label>
+                    	<div class="col-sm-2">
+                       		<input type="text" class="form-control" id="add_name" placeholder="属性名" required="required" ng-model="add_name ">
+                    	</div>  
+           		</div>
+           		<div class="form-group">
+               		<label for="name" class="col-sm-2 control-label ng-valid " ng-model="add_attr">属性值</label>
+                    	<div class="col-sm-2">
+                       		<input type="text" class="form-control" id="add_attr" placeholder="属性值" required="required" ng-model="add_attr">
+                    	</div>  
+           		</div>
+           		<div class="form-group">
+        			<label for="name" class="col-sm-2 control-label ng-valid ">下发</label>
+         			<div class="col-sm-2" style="padding-top: 0px;">
+            			<div class="checkbox col-sm-2">
+  							<label><input type="checkbox"  ng-model="applyToGateway" style=" width: 24px;height: 24px;margin-top: 0px;" ng-change="luastrShow()"></label>
+						</div>
+         			</div>  
+      			</div>
+            	<div class="form-group" >
+                	<label  class="col-sm-2 control-label" ></label>
+					<button type="submit" class="btn btn-info "  ng-click=" Add(opcAttrs)" >添加</button>                                    
+             	</div>
+       	    </div>
+      	 </form>
+	</div>
+</div>
